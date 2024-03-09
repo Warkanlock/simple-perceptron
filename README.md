@@ -20,4 +20,4 @@ float prediction = 1 * weight; // 2
 
 ## Aknowledgements
 
-This implementation is based on the Machine Learning series streamed by Tsoding on Twitch.
+This implementation is based on the Machine Learning series streamed by Tsoding.
