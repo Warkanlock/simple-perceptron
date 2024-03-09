@@ -7,7 +7,7 @@ This implementation allow us to create an approximation of a function using a se
 ## Example
 
 ```c
-float model[][] = {
+float model[][2] = {
     {1, 2}
     {2, 4}
     // ...
