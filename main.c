@@ -18,10 +18,10 @@ float train[][2] = {
 };
 
 // a few hyperparameters
-#define epoch 1000000
-#define learning_rate 1e-3
-#define epsilon 1e-3
-#define bias_seed 1e-3
+#define epoch 1000
+#define learning_rate 1e-1
+#define epsilon 1e-2
+#define bias_seed 1e-1
 #define train_size sizeof(train) / sizeof(train[0])
 
 void define_seed(int seed){
@@ -114,7 +114,7 @@ int main(void) {
         // use the weight we just trained to predict the output
         float output = input * weights[0];
 
-        printf("input: %f, target: %f, prediction: %f\n", input, target, output);
+        printf("input: %f, target: %f, prediction: %f, accuracy: %.2f%% \n", input, target, output, 100 - (target - output));
     }
 
     return 0;
