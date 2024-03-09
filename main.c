@@ -18,9 +18,10 @@ float train[][2] = {
 };
 
 // a few hyperparameters
-#define epoch 10000
+#define epoch 1000000
 #define learning_rate 1e-3
 #define epsilon 1e-3
+#define bias_seed 1e-3
 #define train_size sizeof(train) / sizeof(train[0])
 
 void define_seed(int seed){
@@ -38,7 +39,7 @@ float generate_random(float magnitude)  {
     return ((float) rand() / (float) RAND_MAX) * magnitude;
 }
 
-float cost(float weight) {
+float cost(float weight, float bias) {
     float cost_result = 0.0f;
 
     for (size_t i = 0; i < train_size; i++) {
@@ -46,7 +47,7 @@ float cost(float weight) {
         float target = train[i][1];
 
         // train model ( y = mx + b )
-        float output = input * weight;
+        float output = input * weight + bias;
 
         // calculate error ( y - target )
         float error = output - target;
@@ -61,14 +62,23 @@ float train_weight(float intial_weight) {
     // cost function
     float h = epsilon;
     float rate = learning_rate;
+    float bias = generate_random(bias_seed);
 
     // weight used to train model
     float weight = intial_weight;
 
     // cost approximation to a derivate state
     for(size_t i = 0; i < epoch; ++i) {
-        float d_cost = (cost(weight + h) - cost(weight))/h;
+        // calculate initial cost against weight / bias
+        float initial_cost = cost(weight, bias);
+
+        // calculate derivate of weight + bias
+        float d_cost = (cost(weight + h, bias) - initial_cost)/h;
+        float d_bias = (cost(weight, bias + h) - initial_cost)/h;
+
+        // modify parameters to follow approximation
         weight -= rate * d_cost;
+        bias -= rate * d_bias;
     }
 
     // return trained weight

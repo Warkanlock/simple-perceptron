@@ -19,6 +19,7 @@ float prediction = 1 * weight; // 2
 ```
 
 ## Output
+
 ```
 training weight->0
 weight->0: 1.999446
