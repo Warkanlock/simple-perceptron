@@ -2,5 +2,5 @@
 
 set -e
 
-gcc -Wall -Wextra -o main main.c
-./main
+gcc -Wall -Wextra -o simple simple.c
+./simple

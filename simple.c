@@ -1,6 +1,20 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include <math.h>
+#include <stdbool.h>
+
+#define epoch 100000
+#define learning_rate 1e-2
+#define epsilon 1e-3
+#define train_size sizeof(train) / sizeof(train[0])
+#define TEST_ENABLED true
+
+// activation function
+float activation(float x) {
+    // sigmoid
+    return 1.f / (1.f + expf(-x));
+}
 
 // train model data (x = x * 2)
 float train[][2] = {
@@ -17,25 +31,15 @@ float train[][2] = {
     {10.0, 20.0}
 };
 
-// a few hyperparameters
-#define epoch 1000
-#define learning_rate 1e-1
-#define epsilon 1e-2
-#define bias_seed 1e-1
-#define train_size sizeof(train) / sizeof(train[0])
-
 void define_seed(int seed){
-    // define seed,
-    // if zero we just rely on time as seed
-    if(seed > 0) {
-        srand(seed);
+    if(seed == 0) {
+        srand((unsigned int)time(NULL));
     } else {
-        srand(time(0));
+        srand((unsigned int)seed);
     }
 }
 
 float generate_random(float magnitude)  {
-    define_seed(0);
     return ((float) rand() / (float) RAND_MAX) * magnitude;
 }
 
@@ -47,7 +51,7 @@ float cost(float weight, float bias) {
         float target = train[i][1];
 
         // train model ( y = mx + b )
-        float output = input * weight + bias;
+        float output = activation(input * weight + bias);
 
         // calculate error ( y - target )
         float error = output - target;
@@ -62,7 +66,9 @@ float train_weight(float intial_weight) {
     // cost function
     float h = epsilon;
     float rate = learning_rate;
-    float bias = generate_random(bias_seed);
+    float bias = generate_random(1.0f);
+
+    printf("bias: %f\n", bias);
 
     // weight used to train model
     float weight = intial_weight;
@@ -89,32 +95,38 @@ float* prepare_weights(size_t total_weights) {
     float* weights = (float*) malloc(total_weights * sizeof(float));
 
     for(size_t i = 0; i < total_weights; ++i) {
-        weights[i] = generate_random(1);
+        weights[i] = generate_random(1.0f);
     }
 
     return weights;
 }
 
 int main(void) {
+    define_seed(time(0));
+
     size_t model_weights = 1;
     float* weights = prepare_weights(model_weights);
 
     // train model
     for(size_t i = 0; i < model_weights; ++i) {
-        printf("training weight->%d\n", (int)i);
+        printf("initial weight[%d]: %f\n", (int)i, weights[i]);
         weights[i] = train_weight(weights[i]);
-        printf("weight->%d: %f\n", (int)i, weights[i]);
+        printf("final weight[%d]: %f\n", (int)i, weights[i]);
     }
 
     // used the trained weights against a test set
-    for(size_t i = 0; i < train_size; ++i) {
-        float input = train[i][0];
-        float target = train[i][1];
+    if(TEST_ENABLED == true) {
+        for(size_t i = 0; i < train_size; ++i) {
+            float input = train[i][0];
+            float target = train[i][1];
 
-        // use the weight we just trained to predict the output
-        float output = input * weights[0];
+            // use the weight we just trained to predict the output
+            float output = input * weights[0];
 
-        printf("input: %f, target: %f, prediction: %f, accuracy: %.2f%% \n", input, target, output, 100 - (target - output));
+            printf("input: %f, target: %f, prediction: %f, accuracy: %.2f%% \n", input, target, output, 100 - (target - output));
+        }
+    } else {
+        printf("Test is disabled\n");
     }
 
     return 0;
