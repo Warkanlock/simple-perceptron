@@ -1,10 +1,58 @@
-# Simple Perceptron
+# Machine Learning Use Cases
+
+## Usage
+
+```
+./build.sh && complex
+```
+
+```
+./build.sh && ./simple
+```
+
+## Basic Neural Network
+
+A simple implementation using C of a Neural Network with N layers and M neurons per layer.
+
+### Example
+
+```c
+int samples = 4;
+
+// create a neural network with N samples
+initialize_network(&nn, 1, -1);
+
+// or-gate input data
+double inputs[samples][3] = {
+    {0, 0, BIAS},
+    {0, 1, BIAS},
+    {1, 0, BIAS},
+    {1, 1, BIAS}
+};
+
+// or-gate output data
+double expected_outputs[samples] = {0, 1, 1, 1};
+
+// train the network
+train(&nn, inputs, expected_outputs, EPOCH);
+```
+
+### Output
+
+```
+input: [0, 0], predicted: 0.055417, original: 0.000000
+input: [0, 1], predicted: 0.965405, original: 1.000000
+input: [1, 0], predicted: 0.965397, original: 1.000000
+input: [1, 1], predicted: 0.999925, original: 1.000000
+```
+
+## Simple Perceptron
 
 A simple implementation using C of a Perceptron (kind of) of just one weight (a.k.a neuron).
 
 This implementation allow us to create an approximation of a function using a set of points from a model.
 
-## Example
+### Example
 
 ```c
 float model[][2] = {
@@ -18,7 +66,7 @@ float weight = train_weight(weights[0]);
 float prediction = 1 * weight; // 2
 ```
 
-## Output
+### Output
 
 ```
 training weight->0

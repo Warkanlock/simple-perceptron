@@ -3,4 +3,4 @@
 set -e
 
 gcc -Wall -Wextra -o simple simple.c
-./simple
+gcc -Wall -Wextra -o complex complex.c
