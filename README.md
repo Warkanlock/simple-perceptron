@@ -2,9 +2,13 @@
 
 ## Usage
 
+### Neural Network
+
 ```
 ./build.sh && complex
 ```
+
+### Simple Perceptron
 
 ```
 ./build.sh && ./simple
