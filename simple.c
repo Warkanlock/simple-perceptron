@@ -114,7 +114,7 @@ int main(void) {
         printf("final weight[%d]: %f\n", (int)i, weights[i]);
     }
 
-    // used the trained weights against a test set
+    // inference, used the trained weights against a test set
     if(TEST_ENABLED == true) {
         for(size_t i = 0; i < train_size; ++i) {
             float input = train[i][0];
