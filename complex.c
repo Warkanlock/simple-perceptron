@@ -36,8 +36,6 @@ double forward(NeuralNetwork *nn, double inputs[N_INPUTS]) {
     activation += nn->weights[i] * inputs[i];
   }
 
-  // test
-
   // apply activation function
   nn->output = sigmoid(activation);
 
