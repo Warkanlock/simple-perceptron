@@ -36,6 +36,8 @@ double forward(NeuralNetwork *nn, double inputs[N_INPUTS]) {
     activation += nn->weights[i] * inputs[i];
   }
 
+  // test
+
   // apply activation function
   nn->output = sigmoid(activation);
 
@@ -47,7 +49,8 @@ void calculate_error_gradient(NeuralNetwork *nn, double expected) {
   nn->delta = (expected - nn->output) * sigmoid_derivative(nn->output);
 }
 
-void update_weights(NeuralNetwork *nn, double inputs[N_INPUTS], double learning_rate) {
+void update_weights(NeuralNetwork *nn, double inputs[N_INPUTS],
+                    double learning_rate) {
   for (int i = 0; i < N_INPUTS - 1; i++) {
     // update weights based on the error gradient
     nn->weights[i] += learning_rate * nn->delta * inputs[i];
@@ -57,7 +60,8 @@ void update_weights(NeuralNetwork *nn, double inputs[N_INPUTS], double learning_
   nn->weights[N_INPUTS - 1] += learning_rate * nn->delta;
 }
 
-void train(NeuralNetwork *nn, double inputs[N_SAMPLES][N_INPUTS], double expected[N_SAMPLES], int epochs) {
+void train(NeuralNetwork *nn, double inputs[N_SAMPLES][N_INPUTS],
+           double expected[N_SAMPLES], int epochs) {
   for (int epoch = 0; epoch < epochs; epoch++) {
     for (int i = 0; i < N_SAMPLES; i++) {
       // forward propagation
@@ -90,9 +94,8 @@ int main() {
     // predict using the trained network
     double prediction = forward(&nn, inputs[i]);
 
-    printf("input: [%1.f, %1.f], predicted: %f, original: %f\n",
-        inputs[i][0], inputs[i][1],
-        prediction, outputs[i]);
+    printf("input: [%1.f, %1.f], predicted: %f, original: %f\n", inputs[i][0],
+           inputs[i][1], prediction, outputs[i]);
   }
 
   return 0;
