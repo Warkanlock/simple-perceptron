@@ -29,13 +29,6 @@ sample nand_train[] = {
     {1, 1, 0},
 };
 
-sample not_train[] = {
-    {0, 0, 1},
-    {1, 0, 0},
-    {0, 1, 1},
-    {1, 1, 0},
-};
-
 sample xor_train[] = {
     {0, 0, 0},
     {1, 0, 1},
